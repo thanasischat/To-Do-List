@@ -3,6 +3,15 @@ const display = document.getElementById("display");
   const tasksDiv = document.getElementById("tasksDiv");
 
   let tasks = [];
+  function loadTasks() {
+    const saveTasks = localStorage.getItem("tasks");
+    if(savedTasks != null) {
+      tasks = JSON.parse(savedTasks);
+    }
+  }
+  function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks) );
+  }
 
   function addTask() {
     let task = display.value;
@@ -10,6 +19,7 @@ const display = document.getElementById("display");
       return;
     }
     tasks.push(task);
+    saveTasks();
     render();
     clearInput();
   }
@@ -32,6 +42,7 @@ const display = document.getElementById("display");
       btn.classList.add ("my-button");
       btn.addEventListener("click", () => {
         tasks.splice(i, 1);
+        saveTasks();
         render();
       });
 
@@ -49,3 +60,5 @@ const display = document.getElementById("display");
       addTask();
     }
   });
+loadTasks();
+render();
